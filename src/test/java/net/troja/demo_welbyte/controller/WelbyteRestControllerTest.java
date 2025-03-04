@@ -9,6 +9,7 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.startsWith;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -79,6 +80,30 @@ class WelbyteRestControllerTest {
                 .andDo(print())
                 .andExpect(status().isBadRequest())
                 .andExpect(content().string(containsString("employee_last_name")));
+    }
+
+    @Test
+    void allFine() throws Exception {
+        mockMvc.perform(authenticatedRequest()
+                        .param("employee_code", "abc")
+                        .param("member_status", "dependent")
+                        .param("employee_date_of_birth", "1979-01-09")
+                        .param("employee_first_name", "Walter")
+                        .param("employee_last_name", "Jacobson"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().string(startsWith("{\"memberUniqueId\":44000100,\"firstName\":\"Walter\",\"lastName\":\"Jacobson\",\"dateOfBirth\":\"1979-01-09\",\"gender\":\"M\"")));
+    }
+
+    @Test
+    void notFound() throws Exception {
+        mockMvc.perform(authenticatedRequest()
+                        .param("employee_code", "abc")
+                        .param("member_status", "employee")
+                        .param("employee_date_of_birth", "1942-02-09")
+                        .param("employee_id", "44000112"))
+                .andDo(print())
+                .andExpect(status().isNotFound());
     }
 
     @Test

@@ -1,0 +1,22 @@
+meta {
+  name: Find Employee
+  type: http
+  seq: 2
+}
+
+get {
+  url: http://localhost:8080/eligibility?employee_code=abc&member_status=employee&employee_date_of_birth=1979-01-09&employee_id=44000100
+  body: none
+  auth: bearer
+}
+
+params:query {
+  employee_code: abc
+  member_status: employee
+  employee_date_of_birth: 1979-01-09
+  employee_id: 44000100
+}
+
+auth:bearer {
+  token: 1234567890
+}

@@ -1,0 +1,23 @@
+meta {
+  name: Not Found
+  type: http
+  seq: 4
+}
+
+get {
+  url: http://localhost:8080/eligibility?employee_code=abc&member_status=dependent&employee_date_of_birth=1999-10-10&employee_first_name=Walter&employee_last_name=Jacobson
+  body: none
+  auth: bearer
+}
+
+params:query {
+  employee_code: abc
+  member_status: dependent
+  employee_date_of_birth: 1999-10-10
+  employee_first_name: Walter
+  employee_last_name: Jacobson
+}
+
+auth:bearer {
+  token: 1234567890
+}
